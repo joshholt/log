@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title></title>
+  <link href="http://joshholt.github.com/asite/atom.xml" rel="self"/>
+  <link href="http://joshholt.github.com/asite/"/>
+  <updated>2011-07-24T18:41:34-04:00</updated>
+  <id>http://joshholt.github.com/asite/</id>
+  <author>
+    <name>Josh Holt</name>
+    
+  </author>
+
+  
+  <entry>
+    <title>Playing With Octopress</title>
+    <link href="http://joshholt.github.com/asite/blog/2011/07/24/playingwithoctopress"/>
+    <updated>2011-07-24T15:28:00-04:00</updated>
+    <id>http://joshholt.github.com/asite/blog/2011/07/24/playingwithoctopress</id>
+    <content type="html">&lt;h3&gt;Just Testing this out...&lt;/h3&gt;
+
+&lt;h6&gt;Move along for now&lt;/h6&gt;
+</content>
+  </entry>
+  
+</feed>
