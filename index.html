@@ -107,20 +107,20 @@ Then Install NPM (Node&#8217;s Package Manager) <a href="http://npmjs.org/">Inst
 
 <p>O.K., Now that we have that out of the way let&#8217;s play in the terminal just a bit more</p>
 
-<div><figure role=code><figcaption><span>project_setup.rb </span></figcaption>
+<div><figure role=code><figcaption><span>project_setup.sh </span></figcaption>
 
-<div class="highlight"><pre><code class="rb"><span class="n">mkdir</span> <span class="n">simple_server</span><span class="p">;</span> <span class="n">cd</span> <span class="n">simple_server</span>
-<span class="n">mkdir</span> <span class="o">-</span><span class="n">pv</span> <span class="n">node_modules</span><span class="o">/</span><span class="n">middleware</span>
-<span class="n">mkdir</span> <span class="kp">public</span>
+<div class="highlight"><pre><code class="sh">mkdir simple_server; <span class="nb">cd </span>simple_server
+mkdir -pv node_modules/middleware
+mkdir public
 
-<span class="n">npm</span> <span class="n">install</span> <span class="n">simple</span><span class="o">-</span><span class="n">mime</span> <span class="n">stack</span>
+npm install simple-mime stack
 
-<span class="n">touch</span> <span class="n">server</span><span class="o">.</span><span class="n">js</span>
-<span class="n">touch</span> <span class="n">node_modules</span><span class="o">/</span><span class="n">proxy</span><span class="o">.</span><span class="n">js</span>
-<span class="n">touch</span> <span class="n">node_modules</span><span class="o">/</span><span class="n">middleware</span><span class="o">/</span><span class="n">mount</span><span class="o">.</span><span class="n">js</span>
-<span class="n">touch</span> <span class="n">node_modules</span><span class="o">/</span><span class="n">middleware</span><span class="o">/</span><span class="n">static</span><span class="o">.</span><span class="n">js</span>
-<span class="n">touch</span> <span class="kp">public</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
-<span class="n">echo</span> <span class="s2">&quot;&lt;h1&gt;Welcome to your Simple Server&lt;/h1&gt;&quot;</span> <span class="o">&gt;</span> <span class="kp">public</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span>
+touch server.js
+touch node_modules/proxy.js
+touch node_modules/middleware/mount.js
+touch node_modules/middleware/static.js
+touch public/index.html
+<span class="nb">echo</span> <span class="s2">&quot;&lt;h1&gt;Welcome to your Simple Server&lt;/h1&gt;&quot;</span> &gt; public/index.html
 </code></pre>
 </div>
 
