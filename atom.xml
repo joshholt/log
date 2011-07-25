@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title></title>
-  <link href="http://joshholt.github.com/asite/atom.xml" rel="self"/>
-  <link href="http://joshholt.github.com/asite/"/>
-  <updated>2011-07-24T20:57:45-04:00</updated>
-  <id>http://joshholt.github.com/asite/</id>
+  <link href="http://joshholt.github.com/log/atom.xml" rel="self"/>
+  <link href="http://joshholt.github.com/log/"/>
+  <updated>2011-07-24T21:08:26-04:00</updated>
+  <id>http://joshholt.github.com/log/</id>
   <author>
     <name>Josh Holt</name>
     
@@ -14,9 +14,9 @@
   
   <entry>
     <title>The SproutCore Divide</title>
-    <link href="http://joshholt.github.com/asite/blog/2011/07/24/the-sproutcore-divide"/>
+    <link href="http://joshholt.github.com/log/blog/2011/07/24/the-sproutcore-divide"/>
     <updated>2011-07-24T18:48:00-04:00</updated>
-    <id>http://joshholt.github.com/asite/blog/2011/07/24/the-sproutcore-divide</id>
+    <id>http://joshholt.github.com/log/blog/2011/07/24/the-sproutcore-divide</id>
     <content type="html">&lt;p&gt;&lt;strong&gt;*** Disclaimer -- Here be dragons&lt;/strong&gt;&lt;/p&gt;
 
 
