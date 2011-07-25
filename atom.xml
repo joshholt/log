@@ -4,7 +4,7 @@
   <title></title>
   <link href="http://joshholt.github.com/log/atom.xml" rel="self"/>
   <link href="http://joshholt.github.com/log/"/>
-  <updated>2011-07-25T00:48:18-04:00</updated>
+  <updated>2011-07-25T10:30:14-04:00</updated>
   <id>http://joshholt.github.com/log/</id>
   <author>
     <name>Josh Holt</name>
@@ -301,19 +301,19 @@ created earlier in this article.&lt;/p&gt;
 &lt;p&gt;Now with that out of the way, I would like to talk to you about the confusion you will have when you begin to work with SproutCore in the age of SproutCore 2.0.&lt;/p&gt;
 
 
-&lt;p&gt;I have no doubt that you have been hit with the SproutCore 2.0 Blitz campaign if you are reading this. So lets begin shall we, SproutCore 2.0 is going to be great for the new community and I have no doubts that it will be great for the original community. I mean the folks at strobe are cleaning up a lot of left over code and implement a lot of features we all we attempting to implement in the 1.x line. With that said SproutCore 2.0 still has a ways to go before it will be ready to produce the quality &quot;desktop like&quot; applications that we have been accustomed to creating with the SproutCore 1.x line.&lt;/p&gt;
+&lt;p&gt;I have no doubt that you have been hit with the SproutCore 2.0 Blitz campaign if you are reading this. So lets begin shall we, SproutCore 2.0 is going to be great for the new community and I have no doubts that it will be great for the original community. I mean the folks at strobe are cleaning up a lot of left over code and implementing a lot of features we all we're attempting to implement in the 1.x line. With that said SproutCore 2.0 still has a ways to go before it will be ready to produce the quality &quot;desktop like&quot; applications that we have been accustomed to creating with the SproutCore 1.x line.&lt;/p&gt;
 
 
-&lt;p&gt;That's the divide right now and it could be painful in the future if some considerations aren't taken into account. What are those considerations you may ask. Well for starters we all know that the focus of SproutCore 2.0 is to be light-weight and easier to pick up. This is a fantastic goal because it has the potential to appeal to a wider base of developers, but here's the catch, Those of us that made a bet on SproutCore did so b/c it kicked all of the other frameworks out there in the nuts right out of the box. Did you say right out of the box? Yep and that's where that considerations come in to play. With SproutCore 2.0 you get the framework (i.e. KVO, KVC, Bindings and more) but what you don't get it the &quot;desktop like&quot; feel. Now you could say that I could create this feel my self and most of us re-style the native look and feel anyhow. You would be right, but that was part of the package right?&lt;/p&gt;
+&lt;p&gt;That's the divide right now and it could be painful in the future if some considerations aren't taken into account. What are those considerations you may ask? Well for starters we all know that the focus of SproutCore 2.0 is to be light-weight and easier to pick up. This is a fantastic goal because it has the potential to appeal to a wider base of developers, but here's the catch, Those of us that made a bet on SproutCore did so b/c it kicked all of the other frameworks out there in the nuts right out of the virtual box. Did you say right out of the virtual box? Yep and that's where that considerations come in to play. With SproutCore 2.0 you get the framework (i.e. KVO, KVC, Bindings and more) but what you don't get is the &quot;desktop like&quot; feel. Now you could say that I could create this feel myself and most of us re-style the native look and feel anyhow. You would be right, but that was part of the package right?&lt;/p&gt;
 
 
-&lt;p&gt;I am aware of the efforts of Majd Taby on the new &quot;SproutCore UI&quot; but from what I can tell from the efforts thus far have been on &quot;Mobile Style&quot; navigation and layouts. While this is really good stuff, please don't forget that there was and still is a decent size community that live and breath the &quot;roots&quot; of SproutCore.&lt;/p&gt;
+&lt;p&gt;I am aware of the efforts of Majd Taby on the new &quot;SproutCore UI&quot; but from what I can tell the efforts thus far have been on &quot;Mobile Style&quot; navigation and layouts. While this is really good stuff, please don't forget that there was and still is a decent size community that live and breath the &quot;roots&quot; of SproutCore.&lt;/p&gt;
 
 
 &lt;p&gt;This divide should not exist in the future. When I get asked ( and I often do get asked ) the following question, &quot;Which version of SproutCore should I use to build a large enterprise application&quot;, I want to be able to say, &quot;Just use the latest, you'll get the same experience, with a leaner footprint&quot;. But as it stands today I cannot in earnest give this answer. I have to give the honest answer and tell those folks to use the 1.4.5 - 1.6.x line of SproutCore.&lt;/p&gt;
 
 
-&lt;p&gt;So let's build a bridge across the divide and blur the lines drawn in the sand. I'm more than willing to help in any way. Let's not forget SproutCore's roots and leave all of the blood, sweat and tears behind for no good reason. Let's make it possible for all of the early adopters to come along on the Journey with Strobe. But keep in mind most early adopters in the enterprise adopted early because the &quot;desktop like&quot; experience was already there and this is important to them, you see to them agile matters and if it's already there that's one less thing they have to wast time on.&lt;/p&gt;
+&lt;p&gt;So let's build a bridge across the divide and blur the lines drawn in the sand. I'm more than willing to help in any way. Let's not forget SproutCore's roots and leave all of the blood, sweat and tears behind for no good reason. Let's make it possible for all of the early adopters to come along on the Journey with Strobe and SproutCore 2.0. But keep in mind most early adopters in the enterprise adopted early because the &quot;desktop like&quot; experience was already there and this is important to them, you see to them agile matters and if it's already there that's one less thing they have to waste time on.&lt;/p&gt;
 
 </content>
   </entry>
