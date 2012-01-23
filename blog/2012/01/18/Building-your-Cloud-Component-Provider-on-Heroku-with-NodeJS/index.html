@@ -1,0 +1,735 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Building your Cloud Component Provider on Heroku with NodeJS - Code is my art</title>
+  <meta name="author" content="Josh Holt">
+
+  
+  <meta name="description" content="Do you want to build a Cloud Component Provider for the Eloqua Cloud Platform ? If you answered yes to that question, then you&#8217;ve come to the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS">
+  <link href="/log/favicon.png" rel="icon">
+  <link href="/log/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/log/javascripts/modernizr-2.0.js"></script>
+  <script src="/log/javascripts/ender.js"></script>
+  <script src="/log/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/log/atom.xml" rel="alternate" title="Code is my art" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-24683751-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/log/">Code is my art</a></h1>
+  
+    <h2>Creating beautiful tapestries one keystroke at a time...</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/log/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:joshholt.github.com/log" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/log/">Blog</a></li>
+  <li><a href="/log/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Building Your Cloud Component Provider on Heroku With NodeJS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-18T01:00:00-05:00" pubdate data-updated="true">Jan 18<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>Do you want to build a Cloud Component Provider for the Eloqua Cloud Platform ?</h3>
+
+<p>If you answered yes to that question, then you&#8217;ve come to the right place.
+In this article I am going to walk you down the path that will help you
+acheive your goal, one step at a time&#8230;</p>
+
+<p><span class='pullquote-right' data-pullquote='I find that starting with some assumptions provides a kind of loose contract between you (the reader) and I.'>
+I am going to start with some assumptions up front so that there is no confusion about the direction we are heading.
+I find that starting with some assumptions provides a kind of loose contract between you (the reader) and I.
+You will encounter all of the following items listed below, so grab you coding hat and let&#8217;s build a provider service shall we?</p>
+
+<blockquote><p>1. You have some idea about Cloud Components for Eloqua<br/>2. You have a desire to play with NodeJS<br/>3. You think it would be neat to deploy your provider to Heroku<br/>4. You are comfortable using the command line (Terminal | console | etc&#8230;)</p></blockquote>
+
+
+<p></span></p>
+
+<p><span class='pullquote-right' data-pullquote='Now that we have the assumptions out of the way, you will need the following prerequisites.'>
+Now that we have the assumptions out of the way, you will need the following prerequisites.
+An account on <a href="https://api.heroku.com/signup">Heroku</a>, where we will be deploying your provider service.
+An account on <a href="https://github.com/signup/free">Github</a>, keeping your code under version control is a good idea.
+An up-to-date version of NodeJS and NPM installed, You can find instructions for your platform by visiting this <a href="https://github.com/joyent/node/wiki/Installation">site</a>.
+Then grab your text editor of choice, I enjoy <a href="http://www.sublimetext.com/2">Sublime Text 2</a>, and off we go.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='The first set of tasks will consist of setting up your NodeJS project'>
+The first set of tasks will consist of setting up your NodeJS project.
+Once you have meet the prerequisites installed you will want to open your terminal
+and create a dev directory under your home folder.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ npm install -g express
+</span><span class='line'>$ express my-first-component-provider
+</span><span class='line'>$ cd my-first-component-provider
+</span><span class='line'>$ npm install
+</span><span class='line'>$ mkdir lib
+</span><span class='line'>$ touch lib/service_document.js</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you followed the steps above you will now have a nice base express project
+with a placeholder for your service_document which we will cover in the next
+task. We will revisit this project structure later when we want to add more modules
+from the NPM package repository.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='The second task when building your provider will be your service definition'>
+The second task when building your provider will be your service definition.
+The service definition is a JSON document that your provider serves
+publically on the web. It contains information about your company and a list
+of the Cloud Components that you are going to provide. Each component has a name,
+a 64x64 icon, a list of endpoints within your provider service, etc. Below you
+will find an example service document.</p>
+
+<div><script src='https://gist.github.com/1633957.js?file='></script>
+<noscript><pre><code>module.exports = {
+    name: 'The CCPV2 Test Provider',
+    version: '2.0.0',
+    logoUrl: &quot;http://ccpv2.herokuapp.com/images/cloud_components.png&quot;,
+    components: [{
+        name: 'The Official Test Component',
+        description: &quot;This component should be used to test the features of CCP Version 2&quot;,
+        iconUrl: 'http://ccpv2.herokuapp.com/images/test_component_icon.png',
+        componentImage: {
+            height: '200',
+            width: '200',
+            url: 'http://ccpv2.herokuapp.com/images/test_placeholder.png'
+        },
+        enable: '',
+        disable: '',
+        createInstance: 'http://ccpv2.herokuapp.com/components/create/theOfficialTestComponent/{Id}',
+        removeInstance: 'http://ccpv2.herokuapp.com/components/remove/theOfficialTestComponent/{Id}',
+        configurationUrl: 'http://ccpv2.herokuapp.com/components/configure/theOfficialTestComponent/{Id}?assetId={AssetId}&amp;contactId={ContactId}',
+        renderInstance: 'http://ccpv2.herokuapp.com/components/render/theOfficialTestComponent/{Id}?assetId={AssetId}&amp;contactId={ContactId}&amp;visitorId={VisitorId}',
+        instanceImage: 'http://ccpv2.herokuapp.com/components/preview/theOfficialTestComponent/{Id}?assetId={AssetId}&amp;contactId={ContactId}&amp;visitorId={VisitorId}'
+    }]
+};</code></pre></noscript></div>
+
+
+<p></span>
+<span class='pullquote-right' data-pullquote='Everything outside of the the components array describes your provider'>
+Everything outside of the the components array describes your provider. The
+name property is the name of your provider service and it is what gets displayed
+within the setup area and landing page building areas of the Eloqua Application.
+The version property is used as your own version number and the logoUrl represents
+the location of your provider&#8217;s logo. Your provider logo will only show in the
+setup area of the Eloqua application.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='Each object within the components array represents one component'>
+Each object within the components array represents one component.
+The properties of a component are used in the following ways. The name property
+represents the name of each component and it is displayed in the setup area and
+landing page building areas of the Eloqua application. The description property is displayed
+only in the setup area of the Eloqua application and it is used to give your users
+some usage information. The iconUrl property is displayed in both the setup area and
+landing page building areas of the Eloqua applications and it is used to give your
+users an easy way to identify your component. The componentImage property is displayed
+as soon as your component is added to the landing page building canvas and serves
+as a default placeholder image for your component until it is rendered.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='The workhorses of the component definition are the component endpoints'>
+The workhorses of the component definition are the component endpoints.
+There are five component endpoints and I will explain how they work. First we
+will start with the &#8220;createInstance&#8221; endpoint. Eloqua will call your provider
+service at this endpoint when a component has been added to the landing page builder.
+This endpoint will be the first to receive the GUID identifier for a component instance.
+The GUID is represented by the &#8220;{Id}&#8221; URL placeholder. You will want to use this GUID
+as the identity for the component&#8217;s configuration, which brings us to the next endpoint.
+The &#8220;configurationUrl&#8221; will be called by Eloqua when the user double clicks on the
+component placeholder within the landing page builder. It will receive the aforementioned
+GUID represented by &#8220;{Id}&#8221;, the assetId represented by &#8220;{AssetId}&#8221;, and a contactId if one
+exists represented by &#8220;{ContactId}&#8221;. Usually you will use the configuration endpoint
+to capture any extra information this component needs. Once a component has been configured
+we can move on to rendering. A component&#8217;s &#8220;renderInstance&#8221; endpoint will be called by Eloqua
+when a customer visits the landing page that contains the component. The &#8220;instanceImage&#8221; endpoint
+will be called by Eloqua when a land page is being previewed and it should return a result
+in the same format as the &#8220;componentImage&#8221; property. Both of the &#8220;renderInstance&#8221; and &#8220;instanceImage&#8221;
+endpoints will receive a GUID represented by &#8220;{Id}&#8221;, the assetId represented by &#8220;{AssetId}&#8221;, a contactId if one
+exists represented by &#8220;{ContactId}&#8221;, and the visitorId if one exists represented by &#8220;{VisitorId}&#8221;.
+Last but not least every component should define the &#8220;removeInstance&#8221; endpoint and it will be
+called by Eloqua when a component is deleted from the landing page build area.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='Our third task will be to expose the service_document'>
+Our third task will be to expose the service_document. By exposing the
+service_document we will have provided our registration for the Eloqua Cloud Platform.
+Hopefully this task will be rewarding because we will get to see the fruits of our labor.
+I have included the &#8220;app.js&#8221; contents below and then I will explain what&#8217;s going on and finally
+we will visit the exposed service_document endpoint and bask in the JSON definition of our provider.</p>
+
+<div><script src='https://gist.github.com/1635351.js?file=app_stage1.js'></script>
+<noscript><pre><code>var express = require('express'),
+    app     = express.createServer(),
+    service_document = require('./lib/service_document'),
+    port    = process.env.PORT || 3000;
+
+app.configure(function() {
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.logger());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
+  app.use(express.static(__dirname + '/public'));
+});
+
+app.get(
+  '/service_document', 
+  function (req, res) { 
+    res.send(service_document); 
+  }
+);
+
+app.listen(port, function() { console.log(&quot;Listening on &quot; + port); });</code></pre></noscript></div>
+
+
+<p>Once your app.js looks like the code above you will want to drop into the terminal
+and execute the following command.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ node app.js</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then visit the <a href="http://localhost:3000/service_document">service_document</a> and you will be greeted with your first operational
+endpoint. Pat yourself on the back because you have now provided a way to register
+you Cloud Component Provider service with the Eloqua Cloud Platform.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='Our fourth task will be to expose the endpoints for components'>
+Our fourth task will be to expose the endpoints for components.
+We are going to make use of a nice feature of express known as route middleware.
+Before we get rolling on the heavy code side of this article I would like to explain
+a bit about this feature so that it&#8217;s clear what&#8217;s going on in the code.
+</span>
+<span class='pullquote-right' data-pullquote='Route middleware is a way to intercept the incomming web request'>
+Route middleware is a way to intercept the incomming web request, do some processing
+and pass the result of that processing on to the original route handler. What
+makes this feature nice is that is gives us a way to generalize the work into four
+reusable functions that can be used for any component you plan to provide.
+Now, on with the code&#8230;
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='We are going to store our route middleware in it&#8217;s own module'>
+We are going to store our route middleware in it&#8217;s own module. Fist let&#8217;s
+execute the following command to create a placeholder file for the module code.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ touch lib/route_db_middle_ware.js</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&#8217;s open our newly created file in our editor and add the following code.</p>
+
+<div><script src='https://gist.github.com/1635644.js?file='></script>
+<noscript><pre><code>module.exports = {
+};</code></pre></noscript></div>
+
+
+<p>Now that you have that code you are ready almost ready for configuring and previewing
+a component instance. We just need to fill in the functions that represent the CRUD
+operations on the data storage. Normally we would use a database of some kind
+but for the purpose of this article we are just going to use a long lived
+javascript object as our database and we will pass that to our route_db_middle_ware.</p>
+
+<p>Let&#8217;s begin filling in the CRUD operations, then we will include the route middle
+ware in our application and wire everything up. First up will be create and it&#8217;s
+fairly simple thanks to our little helper functions.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">createInstance</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">guid</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Failed to create an instance... No GUID Supplied&quot;</span><span class="p">));</span>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">insertRecord</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="nx">req</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see we make use of the &#8220;insertRecords&#8221; function and proceed to the next handler
+which happens to be the route handler.</p>
+
+<p>Next we will fill in the createInstance function which represents the update operation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">configureInstance</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">guid</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Failed to configure an instance... No GUID Supplied&quot;</span><span class="p">));</span>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">updateRecord</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="nx">req</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next up will be the previewInstance and renderInstance functions since they are both
+making use of the read operation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">previewInstance</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">guid</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Failed to preview an instance... No GUID Supplied&quot;</span><span class="p">));</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fetchRecord</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="nx">req</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">componentImage</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">},</span>
+</span><span class='line'><span class="nx">renderInstance</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">guid</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Failed to render an instance... No GUID Supplied&quot;</span><span class="p">));</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fetchRecord</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="nx">req</span><span class="p">),</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="nx">parsed</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">parsed</span><span class="p">))</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">parsed</span><span class="p">,</span> <span class="p">{</span><span class="nx">config</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">});</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">parsed</span><span class="p">))</span> <span class="nx">msg</span> <span class="o">=</span> <span class="nx">parsed</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">tmp</span><span class="p">.</span><span class="nx">comments</span> <span class="o">=</span> <span class="nx">msg</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">]</span> <span class="o">||</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="p">{</span><span class="nx">config</span><span class="o">:</span> <span class="nx">tmp</span><span class="p">};</span>
+</span><span class='line'>    <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Last but not lease we need to handle the deletion of a component instance&#8217;s
+configuration. We will implement the remoteInstance function which represents
+the delete operation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">removeInstance</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">db</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">guid</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">&quot;Failed to remove an instance... No GUID Supplied&quot;</span><span class="p">));</span>
+</span><span class='line'>      <span class="nx">req</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">deleteRecord</span><span class="p">(</span><span class="nx">db</span><span class="p">,</span> <span class="nx">req</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">},</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you noticed the module that we required at the begining of our route middleware
+and started wondering where that came from, the following code block should show
+you. You will want to make your &#8220;package.json&#8221; look like the following.</p>
+
+<div><script src='https://gist.github.com/1665546.js?file='></script>
+<noscript><pre><code>{
+  &quot;name&quot;: &quot;my-first-provider&quot;,
+  &quot;version&quot;: &quot;0.0.1&quot;,
+  &quot;dependencies&quot; : {
+    &quot;express&quot;: &quot;2.5.0&quot;,
+    &quot;jade&quot;: &quot;0.16.4&quot;,
+    &quot;underscore&quot;: &quot;1.2.1&quot;
+  }
+}</code></pre></noscript></div>
+
+
+<p>Then run the following command from the terminal in the root of your project to
+install the underscore module.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span> <span class="nx">npm</span> <span class="nx">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that we have the route middleware all ready to go we can move on to wiring
+everything up and then we will be ready to deploy to Heroku and relax.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='Our fifth task will be wiring everything up and preparing for deployment'>
+Our fifth task will be wiring everything up and preparing for deployment.
+To begin wiring everything up so that you can expose all of the required endpoints,
+we will jump back to our app.js file and we are going to make it look like the
+code below.</p>
+
+<div><script src='https://gist.github.com/1635351.js?file=app_final.js'></script>
+<noscript><pre><code>var express          = require('express'),
+    db               = {},
+    app              = express.createServer(),
+    service_document = require('./lib/service_document'),
+    middle           = require('./lib/route_db_middleware'),
+    renderer         = require('./lib/route_rendering_middleware'),
+    port             = process.env.PORT || 3000;
+
+/*****************************************************************************
+ * Application Settings
+ ****************************************************************************/
+app.configure(function() {
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+  app.use(express.logger());
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
+  app.use(express.static(__dirname + '/public'));
+});
+
+/*****************************************************************************
+ * Middleware Endpoints
+ ****************************************************************************/
+app.post(
+  '/components/create/:guid', 
+  middle.createInstance(db),
+  function (req, res) { res.send(req.message); }
+);
+
+app.post(
+  '/components/configure/:guid?', 
+  middle.configureInstance(db),
+  function (req, res) { res.send(req.message); }
+);
+
+app.del(
+  '/components/remove/:guid?',
+  middle.removeInstance(db),
+  function (req, res) { res.send(req.message); }
+);
+
+app.get(
+  '/components/preview/:component/:guid?', 
+  middle.previewInstance(db),
+  function (req, res) { res.send(req.message); }
+);
+
+app.get(
+  '/components/render/:guid?', 
+  middle.renderInstance(db),
+  function (req, res) { 
+    res.send(req.message); 
+  }
+);
+
+/*****************************************************************************
+ * Non Middleware Endpoints
+ ****************************************************************************/
+app.get(
+  '/', 
+  function (req, res) { 
+    res.send(service_doc); 
+  }
+);
+
+app.get(
+  '/service_document', 
+  function (req, res) { 
+    res.send(service_doc); 
+  }
+);
+
+app.listen(port, function() { console.log(&quot;Listening on &quot; + port); });</code></pre></noscript></div>
+
+
+<p>Now that we have defined all of our routes we need to add a Procfile so that
+we can deploy our provider service to Heroku.
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='We will be deploying our provider service to Heroku using the cedar stack'>
+We will be deploying our provider service to Heroku using the cedar stack.
+This means that we must meet the following requirements:</p>
+
+<blockquote><p>1. Our project needs to be under version control<br/>2. Our project should have a Procfile that tells Heroku how to run our app<br/>3. We should have the Heroku gem installed</p></blockquote>
+
+
+<p>The following commands should be run in your terminal inside your provider project
+directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span> <span class="nx">git</span> <span class="nx">init</span> <span class="p">.</span> <span class="o">&amp;&amp;</span> <span class="nx">git</span> <span class="nx">add</span> <span class="p">.</span> <span class="o">&amp;&amp;</span> <span class="nx">git</span> <span class="nx">commit</span> <span class="o">-</span><span class="nx">avm</span> <span class="s2">&quot;Initial Commit&quot;</span>
+</span><span class='line'><span class="nx">$</span> <span class="p">(</span><span class="nx">sudo</span><span class="p">)</span> <span class="nx">gem</span> <span class="nx">install</span> <span class="nx">heroku</span>
+</span><span class='line'><span class="nx">$</span> <span class="nx">heroku</span> <span class="nx">login</span>
+</span><span class='line'><span class="nx">$</span> <span class="nx">heroku</span> <span class="nx">create</span> <span class="o">--</span><span class="nx">stack</span> <span class="nx">cedar</span> <span class="nx">my_first_provider</span>
+</span><span class='line'><span class="nx">$</span> <span class="nx">touch</span> <span class="nx">Procfile</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then your Procfile should like like the code below.</p>
+
+<div><script src='https://gist.github.com/1641052.js?file='></script>
+<noscript><pre><code>web: node app.js</code></pre></noscript></div>
+
+
+<p>Pretty simple isn&#8217;t it?
+</span></p>
+
+<p><span class='pullquote-right' data-pullquote='Our final task will be to push our provider to Heroku'>
+Our final task will be to push our provider to Heroku, to do so we will need
+to run the following command in your terminal under your project directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span> <span class="nx">git</span> <span class="nx">push</span> <span class="nx">heroku</span> <span class="nx">master</span>
+</span><span class='line'><span class="nx">$</span> <span class="nx">heroku</span> <span class="nx">ps</span><span class="o">:</span><span class="nx">scale</span> <span class="nx">web</span><span class="o">=</span><span class="mi">1</span>
+</span><span class='line'><span class="nx">$</span> <span class="nx">heroku</span> <span class="nx">open</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If everything succeded your browser should now be open and you should be looking at
+your first Cloud Component Provider deployed on Heroku using NodeJS. In the next
+article we will walk through using the Cloud Component Provider Test Suite which
+will become an invaluable tool for you as a Cloud Component Provider.
+</span></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Josh Holt</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-18T01:00:00-05:00" pubdate data-updated="true">Jan 18<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS" data-via="cjk2121" data-counturl="http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/log/blog/2011/07/24/quick-proxy-with-nodejs-and-stack" title="Previous Post: Quick Proxy With NodeJS and Stack">&laquo; Quick Proxy With NodeJS and Stack</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS">Building your Cloud Component Provider on Heroku with NodeJS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/log/blog/2011/07/24/quick-proxy-with-nodejs-and-stack">Quick Proxy With NodeJS and Stack</a>
+      </li>
+    
+      <li class="post">
+        <a href="/log/blog/2011/07/24/the-sproutcore-divide">The SproutCore Divide</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("cjk2121", 4, false);
+    });
+  </script>
+  <script src="/log/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/cjk2121" class="twitter-follow-button" data-show-count="false">Follow @cjk2121</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Josh Holt -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'holtsprototype';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS';
+        var disqus_url = 'http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -2,20 +2,26 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://joshholt.github.com/log/blog/2011/07/24/the-sproutcore-divide</loc>
-        <lastmod>2011-07-25T10:30:05-04:00</lastmod>
+        <lastmod>2012-01-18T10:46:05-05:00</lastmod>
     </url>
     <url>
         <loc>
             http://joshholt.github.com/log/blog/2011/07/24/quick-proxy-with-nodejs-and-stack
         </loc>
-        <lastmod>2011-07-25T00:48:08-04:00</lastmod>
+        <lastmod>2012-01-18T10:46:05-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://joshholt.github.com/log/blog/2012/01/18/Building-your-Cloud-Component-Provider-on-Heroku-with-NodeJS
+        </loc>
+        <lastmod>2012-01-23T16:11:33-05:00</lastmod>
     </url>
     <url>
         <loc>http://joshholt.github.com/log/blog/archives/</loc>
-        <lastmod>2011-07-25T10:30:05-04:00</lastmod>
+        <lastmod>2012-01-23T16:11:33-05:00</lastmod>
     </url>
     <url>
         <loc>http://joshholt.github.com/log/</loc>
-        <lastmod>2011-07-25T10:30:05-04:00</lastmod>
+        <lastmod>2012-01-23T16:11:33-05:00</lastmod>
     </url>
 </urlset>
